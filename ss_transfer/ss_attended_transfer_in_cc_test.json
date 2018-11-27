@@ -57,6 +57,17 @@
       "SipGroup": "sip.ab",
       "Port": 10110,
       "QParam": 1
+    },
+    {
+      "UserId": 5,
+      "Number": "162",
+      "Login": "162",
+      "Password": "123",
+      "SipDomain": "%%DEV_DOM%%",
+      "Expires": 3600,
+      "SipGroup": "sip.ab",
+      "Port": 10111,
+      "QParam": 1
     }
   ],
   "UserVar": [
@@ -83,6 +94,7 @@
     "/domain/%%DEV_DOM%%/cc/queue/declare %%QUEUE_NAME%% agents = [agent:%%0.Number%%,agent:%%1.Number%%,agent:%%2.Number%%]",
     "/domain/%%DEV_DOM%%/routing/.xbin/.import-context --xml-base64 %%CTX_TO_IVR%%",
     "/domain/%%DEV_DOM%%/iface/user-set sip1 %%3.SipGroup%% %%3.Number%%@%%3.SipDomain%% routing.context ivr_queue_att_transfer_test",
+    "/domain/%%DEV_DOM%%/iface/user-set sip1 %%4.SipGroup%% %%4.Number%%@%%4.SipDomain%% routing.context ivr_queue_att_transfer_test",
     "/domain/%%DEV_DOM%%/ivr/script/.import --id ivr_queue_att_transfer_test --json %%IVR_TO_QUEUE%%"
   ],
   "PostConf": [
@@ -101,12 +113,13 @@
     "/domain/%%DEV_DOM%%/cc/queue/remove %%QUEUE_NAME%%",
     "/domain/%%DEV_DOM%%/routing/delete ivr_queue_att_transfer_test",
     "/domain/%%DEV_DOM%%/iface/user-set sip1 %%3.SipGroup%% %%3.Number%%@%%3.SipDomain%% routing.context default_routing",
+    "/domain/%%DEV_DOM%%/iface/user-set sip1 %%4.SipGroup%% %%4.Number%%@%%4.SipDomain%% routing.context default_routing",
     "domain/%%DEV_DOM%%/ivr/script/delete ivr_queue_att_transfer_test"
   ],
   "Tests": [
     {
       "Name": "cc_attended_transfer_from_outgoing_call",
-      "Description": "Тестирование сопровождаемого трансфера для исходящего вызова. A звонит на Б, А звонит на С, А делает трансфер Б на C. A,Б,C являются агентами КЦ. Ожидается, что трансфер пройдет успешно. Далее абонент Д делает вызов на абонента С. Ожидается, что вызов пройдёт успешно.",
+      "Description": "Тестирование сопровождаемого трансфера для исходящего вызова. A звонит на Б, А звонит на С, А делает трансфер Б на C. A,Б,C являются агентами КЦ. Ожидается, что трансфер пройдет успешно. Далее абонент Д делает вызов на абонента А. Ожидается, что вызов пройдёт успешно.",
       "TestProcedure": [
         {
           "ServiceFeature": [
@@ -199,7 +212,7 @@
             },
             {
               "Type": "User",
-              "UserId": 4,
+              "UserId": 5,
               "Name": "UAC_MAKE_CALL",
               "Commands": [
                 {
@@ -238,7 +251,7 @@
     },
     {
       "Name": "cc_attended_transfer_from_outgoing_call.(req100rel)",
-      "Description": "Тестируем сопровождаемый трансфер исходящего вызова. A звонит на Б, А звонит на С, А делает трансфер Б на C. A,Б,C являются агентами КЦ. Все UA требуют поддержку 100rel.",
+      "Description": "Тестирование сопровождаемого трансфера для исходящего вызова. A звонит на Б, А звонит на С, А делает трансфер Б на C. A,Б,C являются агентами КЦ. Все UA требуют поддержку 100rel. Ожидается, что трансфер пройдет успешно.",
       "TestProcedure": [
         {
           "ServiceFeature": [
@@ -321,7 +334,7 @@
     },
     {
       "Name": "cc_attended_transfer_from_direct_incoming_call",
-      "Description": "Тестируем сопровождаемый трансфер прямого входящего вызова. A звонит на Б, Б звонит на С, Б делает трансфер A на С. A,Б,C являются агентами КЦ.",
+      "Description": "Тестирование сопровождаемого трансфера для прямого входящего вызова. A звонит на Б, Б звонит на С, Б делает трансфер A на С. A,Б,C являются агентами КЦ. Ожидается, что трансфер пройдет успешно. Далее абонент Д делает вызов на абонента Б. Ожидается, что вызов пройдёт успешно.",
       "TestProcedure": [
         {
           "ServiceFeature": [
@@ -344,6 +357,7 @@
             {
               "Type": "User",
               "UserId": 0,
+              "BackGround": true,
               "Name": "UAS_MAKE_ATT_TRANSFER",
               "Commands": [
                 {
@@ -358,11 +372,12 @@
             {
               "Type": "User",
               "UserId": 1,
+              "BackGround": true,
               "Name": "UAS_RECV_CALL",
               "Commands": [
                 {
                   "SourceFile": "simple_ua/uas_send_bye.xml",
-                  "Options": "-m 1 -d 3000",
+                  "Options": "-m 1 -d 10000",
                   "SippType": "uas",
                   "Timeout": "30s"
                 }
@@ -371,6 +386,7 @@
             {
               "Type": "User",
               "UserId": 2,
+              "BackGround": true,
               "Name": "UAC_MAKE_CALL",
               "Commands": [
                 {
@@ -383,6 +399,52 @@
               ]
             }
           ]
+        },
+        {
+          "WaitBackGroundUA": {
+            "timeout": 15,
+            "UserId": [0]
+          }
+        },
+        {
+          "Sleep": 2
+        },
+        {
+          "StartUA": [
+            {
+              "Type": "User",
+              "UserId": 0,
+              "Name": "UAS2_RECV_BYE",
+              "Commands": [
+                {
+                  "SourceFile": "simple_ua/uas_send_bye.xml",
+                  "Options": "-m 1 -d 3000",
+                  "SippType": "uas",
+                  "NeedAuth": true,
+                  "Timeout": "30s"
+                }
+              ]
+            },
+            {
+              "Type": "User",
+              "UserId": 5,
+              "Name": "UAC_MAKE_CALL",
+              "Commands": [
+                {
+                  "SourceFile": "simple_ua/uac_recv_bye.xml",
+                  "Options": "-m 1 -set CDPN %%0.Number%% -set CDPNDOM %%0.SipDomain%%",
+                  "SippType": "uac",
+                  "NeedAuth": true,
+                  "Timeout": "20s"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "WaitBackGroundUA": {
+            "timeout": 15
+          }
         },
         {
           "ServiceFeature": [
@@ -404,7 +466,7 @@
     },
     {
       "Name": "cc_attended_transfer_from_direct_incoming_call.(req100rel)",
-      "Description": "Тестируем сопровождаемый трансфер прямого входящего вызова. A звонит на Б, Б звонит на С, Б делает трансфер A на С. A,Б,C являются агентами КЦ. Все UA требуют поддержку 100rel",
+      "Description": "Тестирование сопровождаемого трансфера для прямого входящего вызова. A звонит на Б, Б звонит на С, Б делает трансфер A на С. A,Б,C являются агентами КЦ. Все UA требуют поддержку 100rel. Ожидается, что трансфер пройдет успешно.",
       "TestProcedure": [
         {
           "ServiceFeature": [
@@ -487,7 +549,7 @@
     },
     {
       "Name": "cc_attended_transfer_from_queue_incoming_call",
-      "Description": "Тестируем сопровождаемый трансфер входящего вызова из очереди. A звонит на очередь, очередь распределяет на Б, Б звонит на С, Б делает трансфер A на С. Б,C являются агентами КЦ.",
+      "Description": "Тестирование сопровождаемого трансфера для входящего вызова из очереди. A звонит на очередь, очередь распределяет на Б, Б звонит на С, Б делает трансфер A на С. Б,C являются агентами КЦ. Ожидается, что трансфер пройдет успешно. Далее абонент Д делает вызов на очередь. Ожидается, что линия Б была освобождена после трансфера и вызов снова распределится на абонента Б.",
       "TestProcedure": [
         {
           "ServiceFeature": [
@@ -525,6 +587,7 @@
             {
               "Type": "User",
               "UserId": 0,
+              "BackGround": true,
               "Name": "UAS_MAKE_ATT_TRANSFER",
               "Commands": [
                 {
@@ -539,11 +602,12 @@
             {
               "Type": "User",
               "UserId": 1,
+              "BackGround": true,
               "Name": "UAS_RECV_CALL",
               "Commands": [
                 {
                   "SourceFile": "simple_ua/uas_send_bye.xml",
-                  "Options": "-m 1 -d 3000",
+                  "Options": "-m 1 -d 10000",
                   "SippType": "uas",
                   "Timeout": "30s"
                 }
@@ -552,6 +616,7 @@
             {
               "Type": "User",
               "UserId": 3,
+              "BackGround": true,
               "Name": "UAC_MAKE_CALL",
               "Commands": [
                 {
@@ -564,6 +629,53 @@
               ]
             }
           ]
+        },
+        {
+          "WaitBackGroundUA": {
+            "timeout": 15,
+            "UserId": [0]
+          }
+        },
+        {
+          "Sleep": 2
+        },
+        {
+          "StartUA": [
+            {
+              "Type": "User",
+              "UserId": 0,
+              "Name": "UAS2_RECV_BYE",
+              "Commands": [
+                {
+                  "SourceFile": "simple_ua/uas_send_bye.xml",
+                  "Options": "-m 1 -d 3000",
+                  "SippType": "uas",
+                  "NeedAuth": true,
+                  "Timeout": "30s"
+                }
+              ]
+            },
+            {
+              "Type": "User",
+              "UserId": 4,
+              "BackGround": true,
+              "Name": "UAC_MAKE_CALL",
+              "Commands": [
+                {
+                  "SourceFile": "simple_ua/uac_recv_bye.xml",
+                  "Options": "-m 1 -set CDPN A001 -set CDPNDOM %%0.SipDomain%%",
+                  "SippType": "uac",
+                  "NeedAuth": true,
+                  "Timeout": "30s"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "WaitBackGroundUA": {
+            "timeout": 15
+          }
         },
         {
           "ServiceFeature": [
@@ -585,7 +697,7 @@
     },
     {
       "Name": "cc_attended_transfer_from_queue_incoming_call.(req100rel)",
-      "Description": "Тестируем сопровождаемый трансфер входящего вызова из очереди. A звонит на очередь, очередь распределяет на Б, Б звонит на С, Б делает трансфер A на С. Б,C являются агентами КЦ. Все UA требуют поддержку 100rel",
+      "Description": "Тестирование сопровождаемого трансфера для входящего вызова из очереди. A звонит на очередь, очередь распределяет на Б, Б звонит на С, Б делает трансфер A на С. Б,C являются агентами КЦ. Все UA требуют поддержку 100rel. Ожидается, что трансфер пройдет успешно.",
       "TestProcedure": [
         {
           "ServiceFeature": [
