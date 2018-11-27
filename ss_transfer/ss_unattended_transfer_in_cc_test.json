@@ -46,6 +46,17 @@
       "SipGroup": "sip.ab",
       "Port": 10109,
       "QParam": 1
+    },
+    {
+      "UserId": 4,
+      "Number": "161",
+      "Login": "161",
+      "Password": "123",
+      "SipDomain": "%%DEV_DOM%%",
+      "Expires": 3600,
+      "SipGroup": "sip.ab",
+      "Port": 10110,
+      "QParam": 1
     }
   ],
   "UserVar": [
@@ -95,7 +106,7 @@
   "Tests": [
     {
       "Name": "cc_unattended_transfer_from_outgoing_call",
-      "Description": "Тестируем несопровождаемый трансфер исходящего вызова. A звонит на Б, А делает трансфер на С. A,Б,C являются агентами КЦ",
+      "Description": "Тестируем несопровождаемый трансфер исходящего вызова. A звонит на Б, А делает трансфер на С. A,Б,C являются агентами КЦ. Ожидается, что трансфер пройдет успешно. Далее абонент Д делает вызов на абонента С. Ожидается, что вызов пройдёт успешно.",
       "TestProcedure": [
         {
           "ServiceFeature": [
@@ -119,6 +130,7 @@
               "Type": "User",
               "UserId": 0,
               "Name": "UAS0_RECV_CALL",
+              "BackGround":  true,
               "Commands": [
                 {
                   "SourceFile": "simple_ua/uas_recv_bye.xml",
@@ -132,6 +144,7 @@
             {
               "Type": "User",
               "UserId": 1,
+              "BackGround":  true,
               "Name": "UAS1_RECV_CALL",
               "Commands": [
                 {
@@ -145,6 +158,7 @@
             {
               "Type": "User",
               "UserId": 2,
+              "BackGround":  true,
               "Name": "UAC_MAKE_UNATT_TRANSFER",
               "Commands": [
                 {
@@ -157,6 +171,52 @@
               ]
             }
           ]
+        },
+        {
+          "WaitBackGroundUA": {
+            "timeout": 15,
+            "UserId": [2]
+          }
+        },
+        {
+          "Sleep": 2
+        },
+        {
+          "StartUA": [
+            {
+              "Type": "User",
+              "UserId": 2,
+              "Name": "UAS2_RECV_BYE",
+              "Commands": [
+                {
+                  "SourceFile": "simple_ua/uas_send_bye.xml",
+                  "Options": "-m 1 -d 3000",
+                  "SippType": "uas",
+                  "NeedAuth": true,
+                  "Timeout": "30s"
+                }
+              ]
+            },
+            {
+              "Type": "User",
+              "UserId": 4,
+              "Name": "UAC_MAKE_CALL",
+              "Commands": [
+                {
+                  "SourceFile": "simple_ua/uac_recv_bye.xml",
+                  "Options": "-m 1 -set CDPN %%2.Number%% -set CDPNDOM %%2.SipDomain%%",
+                  "SippType": "uac",
+                  "NeedAuth": true,
+                  "Timeout": "20s"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "WaitBackGroundUA": {
+            "timeout": 15
+          }
         },
         {
           "ServiceFeature": [

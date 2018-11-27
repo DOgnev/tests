@@ -8,21 +8,21 @@
 <Reference variables="test_sipfrag_100,test_sipfrag_200,custom_test" />
 
 <recv request="INVITE">
-<action>
-    <ereg regexp="<sip:([^;@]+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_number"/>
-    <ereg regexp="sip:([^;@]+)" search_in="hdr" header="To:" check_it="true" assign_to="dummy,local_number"/>
-    <ereg regexp=";tag=(\w+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_tag" />
-    <ereg regexp="<sip:.*@([^;>]+)" search_in="hdr" header="To:" check_it="true" assign_to="dummy,local_domain" />
-    <ereg regexp="<sip:.*@([^;>]+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_domain" />
-    <ereg regexp="[0-9]+" search_in="hdr" header="CSeq:" check_it="true" assign_to="inv_cseq" />
-    <ereg regexp=".*" search_in="hdr" header="From:" check_it="true" assign_to="inv_from" />
-    <ereg regexp=".*" search_in="hdr" header="To:" check_it="true" assign_to="inv_to" />
-    <ereg regexp=".*" search_in="hdr" header="Via:" check_it="true" assign_to="inv_via" />
-    <ereg regexp="sip:.*@([0-9A-Za-z\.]+):([0-9]+)" search_in="hdr" header="Contact:" check_it="true" assign_to="dummy,remote_ip,remote_port"/>
-    <assignstr assign_to="local_tag" value="[call_number][pid]"/>
-    <assignstr assign_to="refer_num" value="[$REFERNUM]"/>
-    <assignstr assign_to="refer_dom" value="[$REFERDOM]"/>
-</action>
+    <action>
+        <ereg regexp="<sip:([^;@]+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_number"/>
+        <ereg regexp="sip:([^;@]+)" search_in="hdr" header="To:" check_it="true" assign_to="dummy,local_number"/>
+        <ereg regexp=";tag=(\w+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_tag" />
+        <ereg regexp="<sip:.*@([^;>]+)" search_in="hdr" header="To:" check_it="true" assign_to="dummy,local_domain" />
+        <ereg regexp="<sip:.*@([^;>]+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_domain" />
+        <ereg regexp="[0-9]+" search_in="hdr" header="CSeq:" check_it="true" assign_to="inv_cseq" />
+        <ereg regexp=".*" search_in="hdr" header="From:" check_it="true" assign_to="inv_from" />
+        <ereg regexp=".*" search_in="hdr" header="To:" check_it="true" assign_to="inv_to" />
+        <ereg regexp=".*" search_in="hdr" header="Via:" check_it="true" assign_to="inv_via" />
+        <ereg regexp="sip:.*@([0-9A-Za-z\.]+):([0-9]+)" search_in="hdr" header="Contact:" check_it="true" assign_to="dummy,remote_ip,remote_port"/>
+        <assignstr assign_to="local_tag" value="[call_number][pid]"/>
+        <assignstr assign_to="refer_num" value="[$REFERNUM]"/>
+        <assignstr assign_to="refer_dom" value="[$REFERDOM]"/>
+    </action>
 </recv>
 
 <send>
