@@ -124,7 +124,7 @@
               "Commands": [
                 {
                   "SourceFile": "simple_ua/uas_recv_cancel.xml",
-                  "Options": "-m 1 -set SILENT_CANCEL true",
+                  "Options": "-m 1",
                   "SippType": "uas",
                   "NeedAuth": true,
                   "Timeout": "40s"
@@ -195,7 +195,7 @@
               "Commands": [
                 {
                   "SourceFile": "simple_ua/uas_recv_cancel.xml",
-                  "Options": "-m 1 -set SILENT_CANCEL true",
+                  "Options": "-m 1",
                   "SippType": "uas",
                   "NeedAuth": true,
                   "Timeout": "40s"
@@ -256,7 +256,7 @@
               "Commands": [
                 {
                   "SourceFile": "simple_ua/uas_recv_cancel.xml",
-                  "Options": "-m 1 -set SILENT_CANCEL true",
+                  "Options": "-m 1",
                   "SippType": "uas",
                   "NeedAuth": true,
                   "Timeout": "40s"
@@ -327,7 +327,7 @@
               "Commands": [
                 {
                   "SourceFile": "simple_ua/uas_recv_cancel.xml",
-                  "Options": "-m 1 -set SILENT_CANCEL true",
+                  "Options": "-m 1",
                   "SippType": "uas",
                   "NeedAuth": true,
                   "Timeout": "40s"
@@ -388,7 +388,7 @@
               "Commands": [
                 {
                   "SourceFile": "simple_ua/uas_recv_cancel.xml",
-                  "Options": "-m 1 -set SILENT_CANCEL true",
+                  "Options": "-m 1",
                   "SippType": "uas",
                   "NeedAuth": true,
                   "Timeout": "40s"
@@ -459,7 +459,7 @@
               "Commands": [
                 {
                   "SourceFile": "simple_ua/uas_recv_cancel.xml",
-                  "Options": "-m 1 -set SILENT_CANCEL true",
+                  "Options": "-m 1",
                   "SippType": "uas",
                   "NeedAuth": true,
                   "Timeout": "40s"
