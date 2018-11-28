@@ -188,7 +188,7 @@
         {
           "WaitBackGroundUA": {
             "timeout": 15,
-            "UserId": [2]
+            "Users": [5]
           }
         },
         {
@@ -403,7 +403,7 @@
         {
           "WaitBackGroundUA": {
             "timeout": 15,
-            "UserId": [0]
+            "Users": [0]
           }
         },
         {
@@ -1246,7 +1246,7 @@
         {
           "WaitBackGroundUA": {
             "timeout": 15,
-            "UserId": [0]
+            "Users": [0]
           }
         },
         {
