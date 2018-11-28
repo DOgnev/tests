@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE scenario SYSTEM "sipp.dtd">
-<scenario name = "Simple UAC send bye">
+<scenario name = "Simple UAC recv bye">
 
 <Global variables="CGPN,CDPNDOM,CGPNDOM,CDPN,DISPLAY_NAME,WOUT_DNAME,CHK_ALERTING_NAME,CHK_CONNECTED_NAME,CHK_ALERTING_NUMBER,CHK_CONNECTED_NUMBER,CHK_PROGRESS_NAME,CHK_PROGRESS_NUMBER,CHK_FORWARD_NAME,CHK_FORWARD_NUMBER,HANDLE_UNEXPECTED_MSG"/>
 <User variables="dummy"/>
@@ -18,7 +18,7 @@
 
 <nop hide="true" condexec="DISPLAY_NAME" condexec_inverse="true">
     <action>
-        <assignstr assign_to="display_name" value="\"Simple UAC send bye\" " />
+        <assignstr assign_to="display_name" value="\"Simple UAC recv bye\" " />
     </action>
 </nop>
 
