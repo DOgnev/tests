@@ -188,7 +188,7 @@
         {
           "WaitBackGroundUA": {
             "timeout": 15,
-            "Users": [5]
+            "Users": [2]
           }
         },
         {
