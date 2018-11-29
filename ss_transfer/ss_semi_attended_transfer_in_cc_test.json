@@ -1,5 +1,5 @@
 {
-  "TestName": "ss_attended_transfer_in_cc_test",
+  "TestName": "ss_semi_attended_transfer_in_cc_test",
   "AutoTest": true,
   "RepeatCounter": 2,
   "Users": [
