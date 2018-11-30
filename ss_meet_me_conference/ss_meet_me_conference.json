@@ -230,7 +230,7 @@
     },
     {
       "Name": "duplication_of_the_room_if_room_number_set",
-      "Description": "Master создает комнату используя полный feature-код. Комната создается. Другой Master создает комнату с тем же номером. Комната НЕ создается.",
+      "Description": "Master создает комнату, используя полный feature-код. Комната создается. Другой Master создает комнату с тем же номером. Комната НЕ создается.",
       "TestProcedure": [
         {
           "SendSSHCommand": [
@@ -280,7 +280,7 @@
     },
     {
       "Name": "create_conf-room_use_short_feature_code_if_room_number_set",
-      "Description": "Номер комнаты для Master и Member задан. Master создает комнату используя неполный feature-код. Комната создается. Member создает комнату неполным feature-кодом. Комната НЕ создается. Абонент Б входит в комнату Master. Вход успешен",
+      "Description": "Номер комнаты для Master и Member задан. Master создает комнату, используя неполный feature-код. Комната создается. Member создает комнату неполным feature-кодом. Комната НЕ создается. Абонент Б входит в комнату Master. Вход успешен",
       "TestProcedure": [
         {
           "SendSSHCommand": [
