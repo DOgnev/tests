@@ -38,7 +38,6 @@
   ],
   "UserVar": [
     {
-      "%%ALIAS_B_DNAME%%": "CHOLD_DNAME_TEST"
     }
   ],
   "PreConf": [
@@ -112,7 +111,7 @@
               "Type": "User",
               "UserId": 2,
               "BackGround": true,
-              "Name": "UAC_SEND_BYE",
+              "Name": "UAC_RECV_486",
               "Commands": [
                 {
                   "SourceFile": "basic_terminal_test/uac_recv_486.xml",
@@ -208,7 +207,7 @@
               "Type": "User",
               "UserId": 2,
               "BackGround": true,
-              "Name": "UAC_SEND_BYE",
+              "Name": "UAC_RECV_486",
               "Commands": [
                 {
                   "SourceFile": "basic_terminal_test/uac_recv_486.xml",
