@@ -6,14 +6,14 @@
 <User variables="cdpn_dom,cgpn_dom,cdpn,sdp_chk" />
 <Reference variables="sdp_chk"/>
 
-    <nop hide="true">
+<nop hide="true">
     <action>
         <assignstr assign_to="local_tag" value="[call_number][pid]"/>
         <assignstr assign_to="cgpn_dom" value="[$CGPNDOM]"/>
         <assignstr assign_to="cdpn_dom" value="[$CDPNDOM]"/>
         <assignstr assign_to="cdpn" value="[$CDPN]"/>
     </action>
-    </nop>
+</nop>
 
 <send>
 <![CDATA[
@@ -52,18 +52,11 @@
 <recv response="183" optional="true"></recv>
 <recv response="180" optional="true"></recv>
 <recv response="200" auth="true">
-<action>
-        <ereg regexp="[0-9]+" search_in="hdr" header="CSeq:" assign_to="last_cseq" />
-        <ereg regexp="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" search_in="hdr" header="Contact:" assign_to="new_ip" />
-</action>
-</recv>
-
-
-<nop hide="true">
     <action>
-        <setdest host="[$new_ip]" port="[remote_port]" protocol="UDP" />
+        <ereg regexp="[0-9]+" search_in="hdr" header="CSeq:" assign_to="last_cseq" />
+        <ereg regexp="sip:([^@]@)?[^>]+" search_in="hdr" header="Contact:" check_it="true" assign_to="contact"/>
     </action>
-</nop>
+</recv>
 
 <send>
 <![CDATA[
@@ -82,7 +75,7 @@
 
 <send>
 <![CDATA[
-    INVITE sip:[$cdpn]@[remote_ip]:[remote_port] SIP/2.0
+    INVITE [$contact] SIP/2.0
     Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
     From: "rfc3264 recv re-invite with media after t38" <sip:[service]@[$cgpn_dom]>;tag=[$local_tag]
     To: <sip:[$cdpn]@[$cdpn_dom]>[peer_tag_param]
@@ -135,7 +128,7 @@
 
 <send>
 <![CDATA[
-    ACK sip:[$cdpn]@[remote_ip]:[remote_port] SIP/2.0
+    ACK [$contact] SIP/2.0
     Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
     [last_from:]
     [last_to:]
@@ -192,7 +185,7 @@
 
 <send>
 <![CDATA[
-    BYE sip:[$cdpn]@[remote_ip]:[remote_port] SIP/2.0
+    BYE [$contact] SIP/2.0
     Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
     From: "rfc3264 recv re-invite with media after t38" <sip:[service]@[$cgpn_dom]>;tag=[$local_tag]
     To: "[$cdpn]" <sip:[$cdpn]@[$cdpn_dom]>[peer_tag_param]

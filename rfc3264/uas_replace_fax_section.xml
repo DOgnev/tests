@@ -5,18 +5,16 @@
 <Reference variables="chk_sdp" />
 
 <recv request="INVITE">
-<action>
-    <ereg regexp="<sip:([^;@]+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_number"/>
-    <ereg regexp="<sip:([^;@]+)" search_in="hdr" header="To:" check_it="true" assign_to="dummy,local_number"/>
-    <ereg regexp=";tag=(\w+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_tag" />
-    <ereg regexp="<sip:.*@([^;>]+)" search_in="hdr" header="To:" check_it="true" assign_to="dummy,local_domain" />
-    <ereg regexp="<sip:.*@([^;>]+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_domain" />
-    <ereg regexp="sip:([^@]@)?[^>]+" search_in="hdr" header="Contact:" check_it="true" assign_to="contact"/>
-    <assignstr assign_to="local_tag" value="[call_number][pid]"/>
-</action>
+    <action>
+        <ereg regexp="<sip:([^;@]+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_number"/>
+        <ereg regexp="<sip:([^;@]+)" search_in="hdr" header="To:" check_it="true" assign_to="dummy,local_number"/>
+        <ereg regexp=";tag=(\w+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_tag" />
+        <ereg regexp="<sip:.*@([^;>]+)" search_in="hdr" header="To:" check_it="true" assign_to="dummy,local_domain" />
+        <ereg regexp="<sip:.*@([^;>]+)" search_in="hdr" header="From:" check_it="true" assign_to="dummy,remote_domain" />
+        <ereg regexp="sip:([^@]@)?[^>]+" search_in="hdr" header="Contact:" check_it="true" assign_to="contact"/>
+        <assignstr assign_to="local_tag" value="[call_number][pid]"/>
+    </action>
 </recv>
-
-
 
 <send>
 <![CDATA[
@@ -29,8 +27,6 @@
     Content-Length: 0
 ]]>
 </send>
-
-
 
 <send>
 <![CDATA[
@@ -45,7 +41,6 @@
 </send>
 
 <pause milliseconds="1000"/> 
-
 
 <send retrans="500">
 <![CDATA[
@@ -72,8 +67,7 @@
 ]]>
 </send>
 
-<recv request="ACK">
-</recv>
+<recv request="ACK"/>
 
 <send>
 <![CDATA[
