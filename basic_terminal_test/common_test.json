@@ -37,8 +37,7 @@
     }
   ],
   "UserVar": [
-    {
-    }
+    {}
   ],
   "PreConf": [
     "/domain/%%DEV_DOM%%/iface/user-set sip1 %%0.SipGroup%% %%0.Number%%@%%0.SipDomain%% terminal_type basic",
@@ -104,6 +103,9 @@
               ]
             }
           ]
+        },
+        {
+          "Sleep": 1
         },
         {
           "StartUA": [
@@ -200,6 +202,9 @@
               ]
             }
           ]
+        },
+        {
+          "Sleep": 1
         },
         {
           "StartUA": [
