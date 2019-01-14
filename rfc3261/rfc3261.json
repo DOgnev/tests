@@ -465,6 +465,39 @@
           ]
         }
       ]
+    },
+    {
+      "Name": "400_response_to_incorrect_uri",
+      "Description": "Проверяем 400 ответ на сообщения с некорректными uri в заголовках From To. Абонент А совершает вызовы с <\"dname\"<sip:number@domain> в заголовке From, а после вызов с <\"dname\"<sip:number@domain> в заголовке To. Ожидается, что оба вызова будут отбиты 400 ответом.",
+      "TestProcedure": [
+        {    
+          "StartUA": [
+            {
+              "Type": "User",
+              "UserId": 0,
+              "RtCheck": "full",
+              "WriteStat": true,
+              "Name": "UAS_RECV_CANCEL",
+              "Commands": [
+                {
+                  "SourceFile": "rfc3261/uac_send_incorrect_uri_recv_400.xml",
+                  "Options": "-m 1 -set CDPN %%1.Number%% -set CGPN %%0.Number%% -set CDPNDOM %%1.SipDomain%% -set CGPNDOM %%0.SipDomain%% -set DISPLAY_NAME_FROM TestName",
+                  "SippType": "uac",
+                  "NeedAuth": true,
+                  "Timeout": "40s"
+                },
+                {
+                  "SourceFile": "rfc3261/uac_send_incorrect_uri_recv_400.xml",
+                  "Options": "-m 1 -set CDPN %%1.Number%% -set CGPN %%0.Number%% -set CDPNDOM %%1.SipDomain%% -set CGPNDOM %%0.SipDomain%% -set DISPLAY_NAME_TO TestName",
+                  "SippType": "uac",
+                  "NeedAuth": true,
+                  "Timeout": "40s"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
