@@ -209,6 +209,26 @@
           }
         }
       ]
+    },
+    {
+      "Name": "test_clearing_of_nonce",
+      "Description": "Проверка очистки старых nonce на ssw. Отправляем REGISTER, получаем 401 ответ, но REGISTER с WWW-Authenticate не отправляем. Через несколько секунд отправляем новый REGISTER, получаем 401, отправляем REGISTER с WWW-Authenticate. Ожидается, что ssw ответит 200 ответом. Далее через 35 сек шлём перерегистрацию. Ожидается, что перерегистрация пройдёт успешно.",
+      "Ref": "#113686",
+      "TestProcedure": [
+        {
+          "ManualReg": {
+            "Users": {
+              "3": {
+                "script": "register_test/send_double_registration.xml",
+                "expires": 90,
+                "additional_options": " -nr",
+                "timeout": 60,
+                "need_drop": false
+              }
+            }
+          }
+        }
+      ]
     }
   ]
 }
