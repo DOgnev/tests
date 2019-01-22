@@ -62,6 +62,8 @@
     "/domain/%%DEV_DOM%%/ss/activate {%%0.Number%%-%%3.Number%%} cnip"
   ],
   "PostConf": [
+    "domain/%%DEV_DOM%%/iface/user-set sip1 %%0.SipGroup%% %%0.Number%%@%%0.SipDomain%% terminal_type smart",
+    "domain/%%DEV_DOM%%/iface/user-set sip1 %%1.SipGroup%% %%1.Number%%@%%1.SipDomain%% terminal_type smart",
     "/domain/%%DEV_DOM%%/ss/deactivate %%0.Number%% chold",
     "/domain/%%DEV_DOM%%/ss/disable %%0.Number%% chold",
     "/domain/%%DEV_DOM%%/ss/deactivate %%0.Number%% conference",
