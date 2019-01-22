@@ -2,12 +2,14 @@
 <!DOCTYPE scenario SYSTEM "sipp.dtd">
 <scenario name = "UAS recv UPDATE">
 
-<Global variables="CHK_CONNECTED_NUMBER,CHK_CONNECTED_NAME,CHK_RPI,CHK_PAI" />
-<User variables="rpi_connected_name,rpi_connected_number,pai_connected_name,pai_connected_number,dummy,connected_name,connected_number" />
-<Reference variables="rpi_connected_name,rpi_connected_number,pai_connected_name,pai_connected_number,dummy,connected_name,connected_number" />
+<Global variables="CHK_CONNECTED_NUMBER,CHK_CONNECTED_NAME,CHK_RPI,CHK_PAI,CHK_INV_CNAME,CHK_INVITE_CNUMBER" />
+<User variables="rpi_connected_name,rpi_connected_number,pai_connected_name,pai_connected_number,dummy,connected_name,connected_number,invite_rpi_cnumber,invite_rpi_cname,invite_pai_cnumber,invite_pai_cname" />
+<Reference variables="rpi_connected_name,rpi_connected_number,pai_connected_name,pai_connected_number,dummy,connected_name,connected_number,invite_rpi_cnumber,invite_rpi_cname,invite_pai_cnumber,invite_pai_cname" />
 
 <recv request="INVITE">
 <action>
+    <ereg regexp="(\"([^\"]+)\")?\s?<sip:([^;@]+)" search_in="hdr" header="Remote-Party-ID:" assign_to="dummy,dummy,invite_rpi_cname,invite_rpi_cnumber"/>
+    <ereg regexp="(\"([^\"]+)\")?\s?<sip:([^;@]+)" search_in="hdr" header="P-Asserted-Identity:" assign_to="dummy,dummy,invite_pai_cname,invite_pai_cnumber"/>
     <ereg regexp="[0-9]+" search_in="hdr" header="To:" assign_to="number" />
     <assignstr assign_to="local_tag" value="[call_number][pid]"/>
 </action>
@@ -128,6 +130,8 @@
     <action>
         <assignstr assign_to="connected_name" value="[$rpi_connected_name]"/>
         <assignstr assign_to="connected_number" value="[$rpi_connected_number]"/>
+        <assignstr assign_to="invite_cname" value="[$invite_rpi_cname]"/>
+        <assignstr assign_to="invite_cnumber" value="[$invite_rpi_cnumber]"/>
     </action>
 </nop>
 
@@ -135,8 +139,41 @@
     <action>
         <assignstr assign_to="connected_name" value="[$pai_connected_name]"/>
         <assignstr assign_to="connected_number" value="[$pai_connected_number]"/>
+        <assignstr assign_to="invite_cname" value="[$invite_pai_cname]"/>
+        <assignstr assign_to="invite_cnumber" value="[$invite_pai_cnumber]"/>
     </action>
 </nop>
+
+<!-- Check connected name from INVITE -->
+
+<nop hide="true" condexec="CHK_INV_CNAME">
+    <action>
+        <strcmp assign_to="compare_result" variable="CHK_INV_CNAME" variable2="invite_cname"/>
+    </action>
+</nop>
+
+<nop hide="true" condexec="compare_result">
+    <action>
+        <warning message="Checking of connected name in INVITE message failed. Require Connected Name: [$CHK_INV_CNAME]; Current Connected Number: [$invite_cname]; compare_result: [$compare_result]."/>
+        <exec int_cmd="stop_now"/>
+    </action>
+</nop>
+
+<!-- Check connected number from INVITE -->
+
+<nop hide="true" condexec="CHK_INVITE_CNUMBER">
+    <action>
+        <strcmp assign_to="compare_result" variable="CHK_INVITE_CNUMBER" variable2="invite_cnumber"/>
+    </action>
+</nop>
+
+<nop hide="true" condexec="compare_result">
+    <action>
+        <warning message="Checking of connected number in INVITE message failed. Require Connected Name: [$CHK_INVITE_CNUMBER]; Current Connected Number: [$invite_cnumber]; compare_result: [$compare_result]."/>
+        <exec int_cmd="stop_now"/>
+    </action>
+</nop>
+
 
 <nop hide="true" condexec="CHK_CONNECTED_NUMBER">
     <action>

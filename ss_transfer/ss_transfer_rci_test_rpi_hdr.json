@@ -267,7 +267,7 @@
               "Commands": [
                 {
                   "SourceFile": "ss_transfer/uas_recv_update_in_confir_st.xml",
-                  "Options": "-m 1 -d 5000 -set CHK_CONNECTED_NUMBER %%2.Number%% -set CHK_CONNECTED_NAME %%CONNECTED_NAME%% -set CHK_RPI true",
+                  "Options": "-m 1 -d 5000 -set CHK_CONNECTED_NUMBER %%2.Number%% -set CHK_CONNECTED_NAME %%CONNECTED_NAME%% -set CHK_RPI true -set CHK_INV_CNAME %%CONNECTED_NAME%% -set CHK_INVITE_CNUMBER %%2.Number%%",
                   "SippType": "uas",
                   "Timeout": "30s"
                 }
@@ -522,7 +522,7 @@
               "Commands": [
                 {
                   "SourceFile": "ss_transfer/uas_recv_update_in_confir_st.xml",
-                  "Options": "-m 1 -d 3000 -set CHK_CONNECTED_NUMBER %%2.Number%% -set CHK_CONNECTED_NAME %%CONNECTED_NAME%% -set CHK_RPI true",
+                  "Options": "-m 1 -d 3000 -set CHK_CONNECTED_NUMBER %%2.Number%% -set CHK_CONNECTED_NAME %%CONNECTED_NAME%% -set CHK_RPI true -set CHK_INV_CNAME %%CONNECTED_NAME%% -set CHK_INVITE_CNUMBER %%2.Number%%",
                   "SippType": "uas",
                   "Timeout": "30s"
                 }
