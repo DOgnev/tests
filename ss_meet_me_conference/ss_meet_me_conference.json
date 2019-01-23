@@ -98,7 +98,7 @@
                 }
               ]
             },
-               {
+            {
               "Type": "User",
               "UserId": 2,
               "Name": "CALL_CONF-ROOM_MASTER",
@@ -259,17 +259,25 @@
             {
               "Type": "User",
               "UserId": 0,
+              "BackGround": true,
               "Name": "CREATE_CONF-ROOM",
               "Commands": [
                 {
                   "SourceFile": "ss_meet_me_conference/uac_send_bye.xml",
-                  "Options": "-m 1 -set CDPN *270*333# -set CDPNDOM %%DEV_DOM%% -d 5000",
+                  "Options": "-m 1 -set CDPN *270*333# -set CDPNDOM %%DEV_DOM%% -d 7000",
                   "SippType": "uac",
                   "NeedAuth": true,
                   "Timeout": "30s"
                 }
               ]
-            },
+            }
+          ]
+        },
+        {
+          "Sleep": 2
+        },
+        {
+          "StartUA": [
             {
               "Type": "User",
               "UserId": 1,
@@ -285,6 +293,11 @@
               ]
             }
           ]
+        },
+        {
+          "WaitBackGroundUA": {
+            "timeout": 7
+          }
         },
         {
           "SendSSHCommand": [
@@ -343,7 +356,7 @@
         },
         {
           "StartUA": [
-               {
+            {
               "Type": "User",
               "UserId": 2,
               "Name": "CALL_CONF-ROOM_MASTER",
@@ -400,7 +413,7 @@
         },
         {
           "StartUA": [
-               {
+            {
               "Type": "User",
               "UserId": 2,
               "Name": "CALL_CONF-ROOM_ANY_USER",
