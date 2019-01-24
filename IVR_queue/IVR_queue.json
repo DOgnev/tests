@@ -1,0 +1,157 @@
+{
+"TestName" : "ivr_queue_work_check",
+
+"Users": 
+	[
+	{
+	"UserId" : 1,
+	"Number" : "200",
+	"Login" : "200",
+	"SipDomain" : "%%DEV_DOM%%",
+	"Expires" : 90,
+	"Port" : 5060,
+	"SipGroup" : "group1",
+	"Password" : "2000"
+	},
+	{
+	"UserId" : 2,
+	"Number" : "202",
+	"Login" : "202",
+	"SipDomain" : "%%DEV_DOM%%",
+	"Expires" : 90,
+	"Port" : 5061,
+	"SipGroup" : "group1",
+	"Password" : "2000"
+	},	
+	{
+	"UserId" : 3,
+	"Number" : "204",
+	"Login" : "204",
+	"SipDomain" : "%%DEV_DOM%%",
+	"Expires" : 90,
+	"Port" : 5062,
+	"SipGroup" : "group1",
+	"Password" : "2000"
+	}
+	],
+	
+"UserVar" : 
+	[
+	{
+	"%%Queue_Num%%" : "999"
+	}   
+	],
+
+"PreConf" :
+	[
+	],
+
+"PostConf" : 
+	[ 
+   	],
+
+
+"Tests": 
+	[
+	{
+	"Name" : "ivr_queue_work_test_check",
+	"Repeater-counter": 1,
+	"Description" : "None",
+
+	"TestProcedure" : 
+		[
+		{
+		"StartUA" : 
+			[
+			{
+			"Type" : "User",
+			"UserId" : 2,
+			"Port" : 15029,
+			"Name" : "Agent_1",
+			"WriteStat" : true,
+			"Commands" :
+				[
+				{
+				"SourceFile" : "xml/reject_call.xml",
+				"Options" : "-m 1",
+				"SippType" : "uas",
+				"Timeout" : "60s",
+				"NeedAuth" : true
+				},
+				{
+				"SourceFile" : "xml/accept_call.xml",
+				"Options" : "-m 1",
+				"SippType" : "uas",
+				"Timeout" : "60s",
+				"NeedAuth" : false
+				}
+				]				
+			},
+			{
+			"Type" : "User",
+			"UserId" : 3,
+			"Port" : 15030,
+			"Name" : "Agent_2",
+			"WriteStat" : true,
+			"Commands" :
+				[
+				{
+				"SourceFile" : "xml/DND_call.xml",
+				"Options" : "-m 1",
+				"SippType" : "uas",
+				"Timeout" : "60s",
+				"NeedAuth" : true
+				},
+				{
+				"SourceFile" : "xml/fail_call.xml",
+				"Options" : "-m 1",
+				"SippType" : "uas",
+				"Timeout" : "60s",
+				"NeedAuth" : false
+				}
+				]
+			},
+			{
+			"Type" : "User",
+			"UserId": 1,
+			"Port" : 15028,
+			"Name" : "User_1",
+			"WriteStat" : true,
+			"Commands" : 
+				[
+				{
+				"SourceFile" : "xml/send_sf.xml",
+				"Options" : "-m 1 -set CDPN %%Queue_Num%% -set CDPNDOM %%DEV_DOM%% -set CGPNDOM %%1.SipDomain%%",
+				"SippType" : "uac",
+				"Timeout" : "60s",
+				"NeedAuth" : true    
+				}
+				]			
+			}
+			]
+		},
+		{
+		"CheckDifference": 
+			[
+			{
+			"Difference" : [20000.0],
+			"CompareMode": "inside_ua",
+			"SearchMode" : "between_calls",
+			"MaxError" : 0.5,
+			"Calls": [1,2],
+			"UA": "user:2",
+			"Msg":[
+				{
+				"MsgType":"request",
+				"Method": "INVITE",
+				"Code": null
+				}
+				]
+			}		
+			]
+		}
+		]
+	}
+	]
+}
+

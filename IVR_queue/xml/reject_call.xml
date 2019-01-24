@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+<scenario name = "new_script">
+
+<recv request="INVITE">
+   <action>
+	<ereg regexp="[0-9]+" search_in="hdr" header="CSeq:" assign_to="last_cseq"/>
+	<ereg regexp="(\w|-)*" search_in="hdr" header="branch=" assign_to="last_branch"/>
+   </action>
+</recv>
+
+<send crlf="true">
+<![CDATA[
+    SIP/2.0 100 Trying
+    Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[$last_branch]
+    [last_from:]
+    [last_to:];
+    [last_call-id:]
+    CSeq: [$last_cseq] INVITE
+    Subject: ivr_queue_test
+    Allow: INVITE, ACK, BYE, CANCEL, INFO, MESSAGE, NOTIFY, OPTIONS, REFER, UPDATE, PRACK
+    Content-Length: 0
+]]>
+</send>
+
+<send crlf="true">
+<![CDATA[
+    SIP/2.0 180 Ringing
+    Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[$last_branch]
+    [last_from:]
+    [last_to:]; tag=[pid]SIPpTag01[call_number]
+    [last_call-id:]
+    CSeq: [$last_cseq] INVITE
+    Subject: ivr_queue_test
+    Contact: <sip:[service]@[local_ip]:[local_port]>
+    Allow: INVITE, ACK, BYE, CANCEL, INFO, MESSAGE, NOTIFY, OPTIONS, REFER, UPDATE, PRACK
+    Content-Length: 0
+]]>
+</send>
+
+<send crlf="true">
+<![CDATA[
+    SIP/2.0 486 Busy Here
+    Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[$last_branch]
+    [last_from:]
+    [last_to:]; tag=[pid]SIPpTag01[call_number]
+    [last_call-id:]
+    CSeq: [$last_cseq] INVITE
+    Subject: ivr_queue_test
+    Contact: <sip:[service]@[local_ip]:[local_port]>
+    Allow: INVITE, ACK, BYE, CANCEL, INFO, MESSAGE, NOTIFY, OPTIONS, REFER, UPDATE, PRACK
+    Content-Length: 0
+]]>
+</send>
+
+<recv request="ACK"></recv>
+
+</scenario>
